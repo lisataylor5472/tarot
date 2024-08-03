@@ -1,5 +1,5 @@
 <template lang="pug">
-| Home Page
+| This is the Sunshine page
 </template>
 
 <script lang="ts">
@@ -10,6 +10,7 @@
     props: {},
     components: { TierOne },
     setup(props, ctx) {
+
       return {
 
       }
