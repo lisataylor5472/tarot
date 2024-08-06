@@ -1,10 +1,10 @@
 <template lang="pug">
 .tarot-card
-  img(:src="cardImage" alt="Tarot Card", :class="{ 'up': cardOrientation === 'up', 'down': cardOrientation === 'down' }")
+  img(:src="cardImage" alt="Tarot Card", :class="{ 'reversed': cardIsReversed }")
 .tarot-details
   h3 {{ selectedCard?.name }}
+  p {{ cardIsReversed ? 'Reversed' : 'Upright' }}
   p {{ selectedCard?.meaning_up }}
-  p {{ cardOrientation }}
 </template>
 
 <script lang="ts">
@@ -17,8 +17,8 @@ export default defineComponent({
       type: Object as () => Card,
       required: true
     },
-    orientation: {
-      type: String,
+    cardIsReversed: {
+      type: Boolean,
       required: true
     }
   },
@@ -29,9 +29,6 @@ export default defineComponent({
       return props.card
     })
 
-    const cardOrientation = computed(() => {
-      return props.orientation
-    })
 
     const cardImage = computed(() => {
       return `https://sacred-texts.com/tarot/pkt/img/${selectedCard.value.name_short}.jpg`
@@ -39,8 +36,7 @@ export default defineComponent({
 
     return {
       selectedCard,
-      cardImage,
-      cardOrientation
+      cardImage
     }
   }
 
@@ -51,10 +47,14 @@ export default defineComponent({
 <style scoped lang="stylus">
 .tarot-card
   img
-    border: 6px solid white
-    border-radius: 25px
-    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2)
-    &.down
-      transform: rotate(180deg)
+    border-style solid
+    border-width 5px
+    border-color var(--vt-c-white-soft)
+    background-size 4px 3px
+    border-radius 25px
+    box-shadow 0 0 10px 0 rgba(0, 0, 0, 0.5)
+    margin-bottom 3em
+    &.reversed
+      transform rotate(180deg)
 
 </style>

@@ -1,9 +1,14 @@
 <template lang="pug">
-h1 Tarot Reading
-.controls
-  button(@click="onDrawCard") Draw Card
+h1 Tarot
+.cover
+  button(v-if="!newReading", @click="newReading = !newReading") Read the Cards
+  img.moth(src="@/assets/vecteezy_vintage-butterfly-illustration.png", alt="Moth Art", :class="{'new-reading': newReading}" )
 .tarot-table
-  tarot-card(v-if="selectedCard", :card="selectedCard", :orientation="cardOrientation")
+  .reading-types(:class="{'new-reading': newReading}")
+    button(@click="onOneCard") One Card
+    button(@click="onTwoCard") Three Card
+    button(@click="onYesNoCard") Yes / No
+  tarot-card(v-if="selectedCard", :card="selectedCard", :cardIsReversed="cardIsReversed")
 </template>
 
 <script lang="ts">
@@ -19,19 +24,24 @@ export default defineComponent({
 
     const tarotDeck = ref<Card[]>(cards)
     const selectedCard = ref<Card | null>(null)
-    const cardOrientation = ref<string>("up")
+    const cardIsReversed = ref<boolean | null>(false)
 
-    const onDrawCard = function() {
+    const newReading = ref<boolean>(false)
+
+
+    const onOneCard = function() {
+      // selectedReading.value = true
       const randomIndex = Math.floor(Math.random() * tarotDeck.value.length)
       selectedCard.value = tarotDeck.value[randomIndex]
-      cardOrientation.value = Math.random() > 0.5 ? "up" : "down"
+      cardIsReversed.value = Math.random() > 0.5 ? true : false
     }
 
     return {
+      newReading,
       tarotDeck,
-      onDrawCard,
+      onOneCard,
       selectedCard,
-      cardOrientation
+      cardIsReversed
     }
 
   }
@@ -39,94 +49,53 @@ export default defineComponent({
 </script>
 
 <style scoped lang="stylus">
-.controls
-  display: flex
-  justify-content: center
-  align-items: center
+
+.cover
+  display flex
+  justify-content center
+  flex-direction column
+  align-items center
   button
-    background-color: #FFC0CB
-    border: 2px solid #422800
-    border-radius: 30px
-    box-shadow: #DC143C 4px 4px 0 0
-    color: #422800
-    cursor: pointer
-    display: inline-block
-    font-weight: 600
-    font-size: 18px
-    padding: 0 18px
-    line-height: 50px
-    text-align: center
-    text-decoration: none
-    user-select: none
-    -webkit-user-select: none
-    touch-action: manipulation
+    // margin-top 50%
+    margin-bottom 2em
+    z-index 1
+  .moth
+    width 80%
+    position absolute
+    top 10em
+    // background-color var(--vt-c-white-soft)
 
-  button:hover
-    background-color: #FFFFF0
-
-  button:active
-    box-shadow: #DC143C 2px 2px 0 0
-    transform: translate(2px, 2px)
-
-  @media (min-width: 768px)
-    button
-      min-width: 120px
-      padding: 0 25px
+    &.new-reading
+      transform translateY(-70%)
+      transition transform 1s ease-in
 
 .tarot-table
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-  height: 100vh
-  // button
-  //   padding: 1rem
-  //   margin: 1rem
-  //   border: 1px solid red
-  //   border-radius: 10px
-  //   background-color: red
-  //   color: white
-  //   font-size: 1.5rem
-  //   cursor: pointer
-  //   &:hover
-  //     background-color: white
-  //     color: red
+  display flex
+  justify-content center
+  align-items center
+  flex-direction column
+  height 100vh
+
+  .reading-types
+    display none
+    opacity 0
+    transition-property display, opacity
+    transition-duration 3s
+    transition-behavior allow-discrete
+
+    &.new-reading
+      transition opacity 3s
+      transition display 3s
+      display flex
+      justify-content center
+      align-items center
+      flex-direction column
+      opacity 1
+
+
+
 </style>
 
-
-
-button
-  background-color: #fbeee0
-  border: 2px solid #422800
-  border-radius: 30px
-  box-shadow: #422800 4px 4px 0 0
-  color: #422800
-  cursor: pointer
-  display: inline-block
-  font-weight: 600
-  font-size: 18px
-  padding: 0 18px
-  line-height: 50px
-  text-align: center
-  text-decoration: none
-  user-select: none
-  -webkit-user-select: none
-  touch-action: manipulation
-
-
-button:hover
-  background-color: #fff
-
-
-button:active
-  box-shadow: #422800 2px 2px 0 0
-  transform: translate(2px, 2px)
-
-
-@media (min-width: 768px)
-  button
-    min-width: 120px
-    padding: 0 25px
 
 
 

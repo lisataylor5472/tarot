@@ -25,7 +25,7 @@ export default defineComponent({
 </script>
 
 <style scoped lang="stylus">
-tarot-view
+.tarot-table
   display: flex
   justify-content: center
   align-items: center
@@ -36,4 +36,6 @@ tarot-view
   font-weight: 600
   text-align: center
   user-select: none
-</style>
+
+
+ </style>
