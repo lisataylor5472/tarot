@@ -1,11 +1,6 @@
 <template lang="pug">
-header
-  //- nav
-  //-   router-link(to="/") Home
-  //-   router-link(to="/sunshine") Sunshine
-  //-   router-link(to="/tarot") Tarot
 
-  router-view
+router-view
 
 footer
   a(href="https://www.vecteezy.com/free-vector/tarot") Tarot Vectors by Vecteezy
@@ -30,4 +25,29 @@ export default defineComponent({
 </script>
 
 <style scoped lang="stylus">
+// header
+//   margin 0
+//   position absolute
+//   top 0px
+//   height 10vh
+//   width 100%
+//   background-color var(--vt-c-black)
+//   z-index 1
+// footer
+//   margin 0
+//   position absolute
+//   bottom 0px
+//   height 5vh
+//   width 100%
+//   background-color var(--vt-c-black)
+//   display flex
+//   justify-content center
+//   align-items center
+//   a
+//     color white
+//     text-decoration none
+//     &:hover
+//       color var(--vt-c-yellow)
+//     &::after
+//       content ' | '
 </style>

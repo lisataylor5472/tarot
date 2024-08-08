@@ -1,14 +1,34 @@
 <template lang="pug">
-h1 Tarot
-.cover
-  button(v-if="!newReading", @click="newReading = !newReading") Read the Cards
-  img.moth(src="@/assets/vecteezy_vintage-butterfly-illustration.png", alt="Moth Art", :class="{'new-reading': newReading}" )
+
 .tarot-table
-  .reading-types(:class="{'new-reading': newReading}")
-    button(@click="onOneCard") One Card
-    button(@click="onTwoCard") Three Card
-    button(@click="onYesNoCard") Yes / No
-  tarot-card(v-if="selectedCard", :card="selectedCard", :cardIsReversed="cardIsReversed")
+  .cover(:class="{'new-reading': newReading}")
+    img.moth.vertical-flip(src="@/assets/vecteezy_vintage-butterfly-illustration.png", alt="Moth Art 2")
+    img.moth(src="@/assets/vecteezy_vintage-butterfly-illustration.png", alt="Moth Art")
+
+
+
+  transition(name="fade")
+    .controls(v-if="!newReading")
+      h1 Tarot
+      button.new-reading-btn(@click="newReading = !newReading") Read the Cards
+
+  transition(name="fade")
+    .controls(v-if="newReading", :class="{'new-reading': newReading}")
+      button(@click="onOneCard") One Card
+      button(@click="onTwoCard") Three Card
+      button(@click="onYesNoCard") Yes / No
+
+    //- .controls
+    //-   h1(v-if="!newReading") Tarot
+    //-   button.new-reading-btn(v-if="!newReading", @click="newReading = !newReading") Read the Cards
+
+    //-   template(v-if="newReading", :class="{'new-reading': newReading}")
+    //-     button(@click="onOneCard") One Card
+    //-     button(@click="onTwoCard") Three Card
+    //-     button(@click="onYesNoCard") Yes / No
+
+//- .tarot-table
+//-   tarot-card(v-if="selectedCard", :card="selectedCard", :cardIsReversed="cardIsReversed")
 </template>
 
 <script lang="ts">
@@ -50,47 +70,98 @@ export default defineComponent({
 
 <style scoped lang="stylus">
 
-.cover
-  display flex
-  justify-content center
-  flex-direction column
-  align-items center
-  button
-    // margin-top 50%
-    margin-bottom 2em
-    z-index 1
-  .moth
-    width 80%
-    position absolute
-    top 10em
-    // background-color var(--vt-c-white-soft)
+.fade-enter-active
+  transition all 1.2s ease-in
+  transition-delay .3s
 
-    &.new-reading
-      transform translateY(-70%)
-      transition transform 1s ease-in
+
+.fade-leave-active
+  transition all .3s ease-out
+
+
+.fade-enter-from ,
+.fade-leave-to
+  opacity 0
 
 .tarot-table
   display flex
   justify-content center
   align-items center
+
+.cover
+  display flex
+  justify-content space-between
   flex-direction column
+  align-items center
   height 100vh
+  position fixed
 
-  .reading-types
-    display none
-    opacity 0
-    transition-property display, opacity
-    transition-duration 3s
-    transition-behavior allow-discrete
+  // opacity 0
+  .new-reading-btn
+    margin 1em 0
+    z-index 1
 
-    &.new-reading
-      transition opacity 3s
-      transition display 3s
-      display flex
-      justify-content center
-      align-items center
-      flex-direction column
-      opacity 1
+  .moth
+    height 40vh
+
+  .vertical-flip
+    transform rotate(180deg)
+
+  &.new-reading
+    align-content space-between
+    transform rotate(90deg)
+    height 100vw
+    border 1px solid red
+    transition transform .9s ease-in, height .9s ease-in
+
+    .moth
+      transition height .9s ease-in
+      height 50vh
+      // margin-top 10em
+
+.controls
+  display flex
+  flex-direction column
+  justify-content center
+  position absolute
+  top 40%
+  opacity 1
+    // .moth
+    //   margin 4em 0
+
+  // .fade-enter-active,
+  // .fade-leave-active
+  //   transition opacity 0.5s ease
+
+  // .fade-enter-from,
+  // .fade-leave-to
+  //   opacity 0
+
+
+
+
+// .tarot-table
+//   display flex
+//   justify-content center
+//   align-items center
+//   flex-direction column
+//   height 100vh
+
+//   .reading-types
+//     display none
+//     opacity 0
+//     transition-property display, opacity
+//     transition-duration 3s
+//     transition-behavior allow-discrete
+
+//     &.new-reading
+//       transition opacity 3s
+//       transition display 3s
+//       display flex
+//       justify-content center
+//       align-items center
+//       flex-direction column
+//       opacity 1
 
 
 
